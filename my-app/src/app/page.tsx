@@ -42,17 +42,42 @@ export default function FormPage() {
         setSelectedOption(event.target.value);
     };
 
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDateRaw, setStartDateRaw] = useState<Date | null>(null);
+    const [endDateRaw, setEndDateRaw] = useState<Date | null>(null);
 
-    function onButtonClick() {
-        console.log("here is the data")
-        console.log("here is the employee")
+    const [result, setResult] = useState('');
+
+    async function onButtonClick() {
+        // console.log("here is the data")
+        // console.log("here is the employee")
+        // console.log(selectedOption)
+        // console.log("here is the start date")
+        // console.log(startDate)
+        // // console.log("here is the end date")
+        // // console.log(endDate)
+        // console.log(typeof startDate
+        const name = selectedOption
+        const startDate = startDateRaw?.toISOString()
+        const endDate = endDateRaw?.toISOString()
         console.log(selectedOption)
-        console.log("here is the start date")
+        console.log(typeof selectedOption)
         console.log(startDate)
-        console.log("here is the end date")
+        console.log(typeof startDate)
         console.log(endDate)
+        console.log(typeof endDate)
+        const res = await fetch('http://localhost:8000/forms/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, startDate, endDate }),
+        });
+        console.log("res")
+        console.log(res)
+        const data = await res.json();
+        console.log("data")
+        console.log(data)
+        // setResult(JSON.stringify(data, null, 2));
     }
 
     return (
@@ -80,8 +105,8 @@ export default function FormPage() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="Start Date"
-                                value={startDate}
-                                onChange={(newValue) => setStartDate(newValue)}
+                                value={startDateRaw}
+                                onChange={(newValue) => setStartDateRaw(newValue)}
                                 textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>
@@ -90,8 +115,8 @@ export default function FormPage() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="End Date"
-                                value={endDate}
-                                onChange={(newValue) => setEndDate(newValue)}
+                                value={endDateRaw}
+                                onChange={(newValue) => setEndDateRaw(newValue)}
                                 textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>
