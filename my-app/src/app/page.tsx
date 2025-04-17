@@ -88,7 +88,7 @@ export default function FormPage() {
                                 label="Start Date"
                                 value={startDate}
                                 onChange={(newValue) => setStartDate(newValue)}
-                                renderInput={(params: TextFieldProps) => <TextField fullWidth {...params} />}
+                                textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>
                     </Box>
@@ -98,7 +98,7 @@ export default function FormPage() {
                                 label="End Date"
                                 value={endDate}
                                 onChange={(newValue) => setEndDate(newValue)}
-                                renderInput={(params: TextFieldProps) => <TextField fullWidth {...params} />}
+                                textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>
                     </Box>
