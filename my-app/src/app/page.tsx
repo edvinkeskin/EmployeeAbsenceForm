@@ -62,7 +62,7 @@ export default function FormPage() {
     const [endDate, setEndDate] = useState<Date | null>(null);
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 8 }}>
+        <Container maxWidth="lg" sx={{ mt: 8 }}>
             <Paper elevation={3} sx={{ p: 4 }}>
                 <Typography variant="h5" component="h1" gutterBottom>
                     Employee Absence Form
