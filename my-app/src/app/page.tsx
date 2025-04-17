@@ -36,30 +36,24 @@ export default function FormPage() {
         width: 1,
     });
 
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-    });
-
     const [selectedOption, setSelectedOption] = useState("");
 
     const handleDropdownChange = (event: SelectChangeEvent) => {
         setSelectedOption(event.target.value);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Form submitted:", formData);
-        // send data to backend or show success message
-    };
-
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
+
+    function onButtonClick() {
+        console.log("here is the data")
+        console.log("here is the employee")
+        console.log(selectedOption)
+        console.log("here is the start date")
+        console.log(startDate)
+        console.log("here is the end date")
+        console.log(endDate)
+    }
 
     return (
         <Container maxWidth="lg" sx={{ mt: 8 }}>
@@ -67,7 +61,7 @@ export default function FormPage() {
                 <Typography variant="h5" component="h1" gutterBottom>
                     Employee Absence Form
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate>
+                <Box>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Choose Option</InputLabel>
                         <Select
@@ -77,9 +71,9 @@ export default function FormPage() {
                             label="Choose Employee"
                             onChange={handleDropdownChange}
                         >
-                            <MenuItem value="option1">Jack Sparrow</MenuItem>
-                            <MenuItem value="option2">Baris Manco</MenuItem>
-                            <MenuItem value="option3">Mozart</MenuItem>
+                            <MenuItem value="Jack Sparrow">Jack Sparrow</MenuItem>
+                            <MenuItem value="Baris Manco">Baris Manco</MenuItem>
+                            <MenuItem value="Wolfgang Amadeus Mozart">Wolfgang Amadeus Mozart</MenuItem>
                         </Select>
                     </FormControl>
                     <Box sx={{ mt: 2 }}>
@@ -129,6 +123,7 @@ export default function FormPage() {
                         color="primary"
                         sx={{ mt: 2 }}
                         fullWidth
+                        onClick={onButtonClick}
                     >
                         Submit
                     </Button>
