@@ -11,7 +11,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-form_db: dict[str, Form] = {}
+form_db: dict[int, Form] = {}
+form_id_counter = 0
 
 # Post a form (POST)
 @app.post("/forms/")
@@ -39,12 +40,15 @@ async def create_form(
                 "content": content.decode(errors="ignore")
             })
 
-    form_db[employee_name] = form_data
-    return {"id": employee_name, "form": form_data}
+    global form_id_counter
+    form_db[form_id_counter] = form_data
+    current_id = form_id_counter
+    form_id_counter += 1
+    return {"id": current_id, "form": form_data}
 
 # Get a form by ID (GET)
 @app.get("/forms/{form_id}")
-def get_form(form_id: str):
+def get_form(form_id: int):
     form = form_db.get(form_id)
     if not form:
         raise HTTPException(status_code=404, detail="Form not found")
