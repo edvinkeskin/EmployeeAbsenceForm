@@ -31,7 +31,7 @@ To run the frontend
 
 `next dev --turbopack`
 
-~or~
+or
 
 `next build`
 
