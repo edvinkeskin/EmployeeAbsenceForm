@@ -64,12 +64,15 @@ The following features have been implemented
 - toast/alert for when a submission is made (or rejected)
 - API routes for POST and GET (list and unique retrival)
 
+Please refer to `http://127.0.0.1:8000/docs` to view submitted forms, currently only form submission (and not viewing submitted forms) have been impemented in the UI.
+
 ## Future steps for this project
 This project could be expanded much more. For example,
 - Add a database
 - Setup a Docker environment to handle containerization
 - Page for viewing the uploaded forms
-- more rigorous backend validation for API parameters
+- QA/Unit testing
+- More rigorous backend validation for API parameters
 - API route for deleting forms
 - Switching the dropdown menu into something that's more extensive (and not static data)
 
