@@ -127,6 +127,7 @@ export default function FormPage() {
                                 width={20}
                                 height={20}
                             />}
+                            color={files ? 'secondary' : 'primary'}
                         >
                             Upload files
                             <VisuallyHiddenInput
@@ -135,6 +136,15 @@ export default function FormPage() {
                                 multiple
                             />
                         </Button>
+                        {files && (
+                            <Box sx={{ mt: 1, ml: 1 }}>
+                                {Array.from(files).map((file, index) => (
+                                    <Box key={index} sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
+                                        {file.name}
+                                    </Box>
+                                ))}
+                            </Box>
+                        )}
                     </Box>
                     <Button
                         type="submit"
