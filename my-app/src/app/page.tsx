@@ -35,24 +35,21 @@ export default function FormPage() {
         width: 1,
     });
 
-    const [selectedOption, setSelectedOption] = useState("");
-
-    const handleDropdownChange = (event: SelectChangeEvent) => {
-        setSelectedOption(event.target.value);
+    const [employee, setEmployee] = useState("");
+    const handleEmployeeChange = (event: SelectChangeEvent) => {
+        setEmployee(event.target.value);
     };
 
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
 
     const [files, setFiles] = useState<File[]>([]);
-
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selected = event.target.files;
         if (selected) {
             setFiles((prev) => [...prev, ...Array.from(selected)]);
         }
     };
-
     const handleRemoveFile = (indexToRemove: number) => {
         setFiles((prev) => prev.filter((_, i) => i !== indexToRemove));
     };
@@ -65,7 +62,7 @@ export default function FormPage() {
         const endDateIso: string = endDate.toISOString()
         const formData = new FormData();
 
-        formData.append('employee_name', selectedOption);
+        formData.append('employee_name', employee);
         formData.append('start_date_iso', startDateIso);
         formData.append('end_date_iso', endDateIso);
 
@@ -96,9 +93,9 @@ export default function FormPage() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={selectedOption}
+                            value={employee}
                             label="Choose Employee"
-                            onChange={handleDropdownChange}
+                            onChange={handleEmployeeChange}
                         >
                             <MenuItem value="Jack Sparrow">Jack Sparrow</MenuItem>
                             <MenuItem value="Baris Manco">Baris Manco</MenuItem>
