@@ -1,8 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
-import { useState } from "react";
 import {
     Box,
     Button,
@@ -18,12 +15,12 @@ import {
     MenuItem, IconButton
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {styled} from "@mui/system";
+import Image from "next/image";
+import { useState } from "react";
 
 export default function FormPage() {
     const VisuallyHiddenInput = styled('input')({
