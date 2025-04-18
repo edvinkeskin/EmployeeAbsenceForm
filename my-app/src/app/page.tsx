@@ -74,11 +74,13 @@ export default function FormPage() {
             method: 'POST',
             body: formData,
         });
-        console.log("res")
-        console.log(res)
-        const data = await res.json();
-        console.log("data")
-        console.log(data)
+
+        if(res.status === 200) {
+            alert("Employee Absence Form has been submitted successfully")
+        } else {
+            alert("Something went wrong when submitting the form")
+        }
+        // const data = await res.json();
     }
 
     return (
