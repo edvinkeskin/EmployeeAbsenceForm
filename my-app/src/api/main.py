@@ -5,7 +5,7 @@ from typing import List
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # your frontend dev URL
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,7 +39,6 @@ async def create_form(
                 "content": content.decode(errors="ignore")
             })
 
-    # Save to mock "DB"
     form_db[employee_name] = form_data
     return {"id": employee_name, "form": form_data}
 
