@@ -44,8 +44,8 @@ export default function FormPage() {
         setSelectedOption(event.target.value);
     };
 
-    const [startDateRaw, setStartDateRaw] = useState<Date | null>(null);
-    const [endDateRaw, setEndDateRaw] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [endDate, setEndDate] = useState<Date | null>(null);
 
     const [files, setFiles] = useState<File[]>([]);
 
@@ -61,16 +61,16 @@ export default function FormPage() {
     };
 
     async function onButtonClick() {
-        if(startDateRaw === null || endDateRaw === null || files === null) {
+        if(startDate === null || endDate === null || files === null) {
             return;
         }
-        const startDateIso: string = startDateRaw.toISOString()
-        const endDateIso: string = endDateRaw.toISOString()
+        const startDateIso: string = startDate.toISOString()
+        const endDateIso: string = endDate.toISOString()
         const formData = new FormData();
 
-        formData.append('selectedOption', selectedOption);
-        formData.append('startDateIso', startDateIso);
-        formData.append('endDateIso', endDateIso);
+        formData.append('employee_name', selectedOption);
+        formData.append('start_date_iso', startDateIso);
+        formData.append('end_date_iso', endDateIso);
 
         for (let i = 0; i < files.length; i++) {
             formData.append('files', files[i]);  // 'files' must match FastAPI param name
@@ -112,8 +112,8 @@ export default function FormPage() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="Start Date"
-                                value={startDateRaw}
-                                onChange={(newValue) => setStartDateRaw(newValue)}
+                                value={startDate}
+                                onChange={(newValue) => setStartDate(newValue)}
                                 textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>
@@ -122,8 +122,8 @@ export default function FormPage() {
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                                 label="End Date"
-                                value={endDateRaw}
-                                onChange={(newValue) => setEndDateRaw(newValue)}
+                                value={endDate}
+                                onChange={(newValue) => setEndDate(newValue)}
                                 textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
                             />
                         </LocalizationProvider>

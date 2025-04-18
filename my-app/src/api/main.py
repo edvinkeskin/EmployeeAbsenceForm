@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Optional
+from typing import List
 
 app = FastAPI()
 app.add_middleware(
@@ -13,19 +13,19 @@ app.add_middleware(
 
 form_db: dict[str, Form] = {}
 
+# Post a form (POST)
 @app.post("/forms/")
 async def create_form(
-        selectedOption: str = Form(...),
-        startDateIso: str = Form(...),
-        endDateIso: str = Form(...),
+        employee_name: str = Form(...),
+        start_date_iso: str = Form(...),
+        end_date_iso: str = Form(...),
         files: List[UploadFile] = File(None)
 ):
-    # Prepare form metadata
     form_data = {
         "form": {
-            "selectedOption": selectedOption,
-            "startDateIso": startDateIso,
-            "endDateIso": endDateIso
+            "employee_name": employee_name,
+            "start_date_iso": start_date_iso,
+            "end_date_iso": end_date_iso
         },
         "files": []
     }
@@ -36,7 +36,7 @@ async def create_form(
             form_data["files"].append({
                 "filename": file.filename,
                 "content_type": file.content_type,
-                "content": content.decode(errors="ignore")  # or store raw bytes
+                "content": content.decode(errors="ignore")
             })
 
     # Save to mock "DB"
