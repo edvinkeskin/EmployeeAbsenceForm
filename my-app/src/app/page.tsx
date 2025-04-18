@@ -5,14 +5,16 @@ import {
     Button,
     Container,
     FormControl,
-    TextField,
-    TextFieldProps,
     Typography,
     Paper,
     InputLabel,
     Select,
     SelectChangeEvent,
-    MenuItem, IconButton, Snackbar, Alert
+    MenuItem,
+    IconButton,
+    Snackbar,
+    Alert,
+    FormHelperText
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
@@ -20,7 +22,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {styled} from "@mui/system";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function FormPage() {
     const [snackbar, setSnackbar] = useState({
@@ -60,12 +62,52 @@ export default function FormPage() {
         setFiles((prev) => prev.filter((_, i) => i !== indexToRemove));
     };
 
+    // error handlers
+    const [employeeError, setEmployeeError] = useState('');
+    const [startDateError, setStartDateError] = useState('');
+    const [endDateError, setEndDateError] = useState('');
+    const [filesError, setFilesError] = useState('');
+
+    function errorChecker() {
+        let hasError = false;
+
+        if (!employee) {
+            setEmployeeError('Employee selection is required.');
+            hasError = true;
+        } else {
+            setEmployeeError('');
+        }
+
+        if (!startDate) {
+            setStartDateError('Start date is required.');
+            hasError = true;
+        } else {
+            setStartDateError('');
+        }
+
+        if (!endDate) {
+            setEndDateError('End date is required.');
+            hasError = true;
+        } else {
+            setEndDateError('');
+        }
+
+        if (files.length === 0) {
+            setFilesError('At least one file must be uploaded.');
+            hasError = true;
+        } else {
+            setFilesError('');
+        }
+
+        return hasError;
+    }
+
     async function onButtonClick() {
-        if(startDate === null || endDate === null || files === null) {
+        if(errorChecker()) {
             return;
         }
-        const startDateIso: string = startDate.toISOString()
-        const endDateIso: string = endDate.toISOString()
+        const startDateIso: string = startDate!.toISOString()
+        const endDateIso: string = endDate!.toISOString()
         const formData = new FormData();
 
         formData.append('employee_name', employee);
@@ -104,7 +146,7 @@ export default function FormPage() {
                     Employee Absence Form
                 </Typography>
                 <Box>
-                    <FormControl fullWidth>
+                    <FormControl fullWidth error={Boolean(employeeError)}>
                         <InputLabel id="demo-simple-select-label">Choose Option</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -117,6 +159,9 @@ export default function FormPage() {
                             <MenuItem value="Baris Manco">Baris Manco</MenuItem>
                             <MenuItem value="Wolfgang Amadeus Mozart">Wolfgang Amadeus Mozart</MenuItem>
                         </Select>
+                        {employeeError && (
+                            <FormHelperText>{employeeError}</FormHelperText>
+                        )}
                     </FormControl>
                     <Box sx={{ mt: 2 }}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -124,7 +169,13 @@ export default function FormPage() {
                                 label="Start Date"
                                 value={startDate}
                                 onChange={(newValue) => setStartDate(newValue)}
-                                textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
+                                slotProps={{
+                                    textField: {
+                                        fullWidth: true,
+                                        error: Boolean(startDateError),
+                                        helperText: startDateError,
+                                    },
+                                }}
                             />
                         </LocalizationProvider>
                     </Box>
@@ -134,7 +185,13 @@ export default function FormPage() {
                                 label="End Date"
                                 value={endDate}
                                 onChange={(newValue) => setEndDate(newValue)}
-                                textField={(params: TextFieldProps) => <TextField fullWidth {...params} />}
+                                slotProps={{
+                                    textField: {
+                                        fullWidth: true,
+                                        error: Boolean(endDateError),
+                                        helperText: endDateError,
+                                    },
+                                }}
                             />
                         </LocalizationProvider>
                     </Box>
@@ -159,6 +216,11 @@ export default function FormPage() {
                                 multiple
                             />
                         </Button>
+                        {filesError && (
+                            <Box sx={{ color: 'error.main', fontSize: '0.7rem', mt: 1 }}>
+                                {filesError}
+                            </Box>
+                        )}
                         {files.length > 0 && (
                             <Box sx={{ mt: 1, ml: 1 }}>
                                 {files.map((file, index) => (
