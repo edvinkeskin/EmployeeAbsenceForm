@@ -176,16 +176,14 @@ export default function FormPage() {
                                             mb: 0.5,
                                         }}
                                     >
-              <span style={{ fontSize: '0.9rem', overflowWrap: 'break-word' }}>
-                {file.name}
-              </span>
-                                        <IconButton
-                                            size="small"
-                                            onClick={() => handleRemoveFile(index)}
-                                            sx={{ ml: 1 }}
-                                        >
-                                            <CloseIcon fontSize="small" />
-                                        </IconButton>
+                                        <span style={{ fontSize: '0.9rem', overflowWrap: 'break-word' }}>{file.name}</span>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => handleRemoveFile(index)}
+                                                    sx={{ ml: 1 }}
+                                                >
+                                                    <CloseIcon fontSize="small" />
+                                                </IconButton>
                                     </Box>
                                 ))}
                             </Box>
