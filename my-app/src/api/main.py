@@ -40,8 +40,8 @@ async def create_form(
             })
 
     # Save to mock "DB"
-    form_db[selectedOption] = form_data
-    return {"id": selectedOption, "form": form_data}
+    form_db[employee_name] = form_data
+    return {"id": employee_name, "form": form_data}
 
 # Get a form by ID (GET)
 @app.get("/forms/{form_id}")
