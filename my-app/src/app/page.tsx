@@ -15,8 +15,10 @@ import {
     InputLabel,
     Select,
     SelectChangeEvent,
-    MenuItem
+    MenuItem, IconButton
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -45,7 +47,18 @@ export default function FormPage() {
     const [startDateRaw, setStartDateRaw] = useState<Date | null>(null);
     const [endDateRaw, setEndDateRaw] = useState<Date | null>(null);
 
-    const [files, setFiles] = useState<FileList | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = event.target.files;
+        if (selected) {
+            setFiles((prev) => [...prev, ...Array.from(selected)]);
+        }
+    };
+
+    const handleRemoveFile = (indexToRemove: number) => {
+        setFiles((prev) => prev.filter((_, i) => i !== indexToRemove));
+    };
 
     async function onButtonClick() {
         if(startDateRaw === null || endDateRaw === null || files === null) {
@@ -127,20 +140,42 @@ export default function FormPage() {
                                 width={20}
                                 height={20}
                             />}
-                            color={files ? 'secondary' : 'primary'}
+                            color={files.length > 0 ? 'secondary' : 'primary'}
                         >
                             Upload files
                             <VisuallyHiddenInput
                                 type="file"
-                                onChange={(event) => setFiles(event.target.files)}
+                                onChange={handleFileChange}
                                 multiple
                             />
                         </Button>
-                        {files && (
+                        {files.length > 0 && (
                             <Box sx={{ mt: 1, ml: 1 }}>
-                                {Array.from(files).map((file, index) => (
-                                    <Box key={index} sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
-                                        {file.name}
+                                {files.map((file, index) => (
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                            maxWidth: '300px',
+                                            backgroundColor: '#f5f5f5',
+                                            px: 1.5,
+                                            py: 0.5,
+                                            borderRadius: 1,
+                                            mb: 0.5,
+                                        }}
+                                    >
+              <span style={{ fontSize: '0.9rem', overflowWrap: 'break-word' }}>
+                {file.name}
+              </span>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => handleRemoveFile(index)}
+                                            sx={{ ml: 1 }}
+                                        >
+                                            <CloseIcon fontSize="small" />
+                                        </IconButton>
                                     </Box>
                                 ))}
                             </Box>
