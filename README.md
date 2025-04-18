@@ -62,9 +62,9 @@ The following features have been implemented
 - UI for which files have been selected 
   - and options to remove it
 - toast/alert for when a submission is made (or rejected)
-- API routes for POST and GET (list and unique retrival)
+- API routes for POST and GET (list and unique retrieval)
 
-Please refer to `http://127.0.0.1:8000/docs` to view submitted forms, currently only form submission (and not viewing submitted forms) have been impemented in the UI.
+Please refer to `http://127.0.0.1:8000/docs` to view submitted forms, currently only form submission (and not viewing submitted forms) have been implemented in the UI.
 
 ## Future steps for this project
 This project could be expanded much more. For example,
