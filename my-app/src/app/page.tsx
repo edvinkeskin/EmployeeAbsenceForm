@@ -45,39 +45,33 @@ export default function FormPage() {
     const [startDateRaw, setStartDateRaw] = useState<Date | null>(null);
     const [endDateRaw, setEndDateRaw] = useState<Date | null>(null);
 
-    const [result, setResult] = useState('');
+    const [files, setFiles] = useState<FileList | null>(null);
 
     async function onButtonClick() {
-        // console.log("here is the data")
-        // console.log("here is the employee")
-        // console.log(selectedOption)
-        // console.log("here is the start date")
-        // console.log(startDate)
-        // // console.log("here is the end date")
-        // // console.log(endDate)
-        // console.log(typeof startDate
-        const name = selectedOption
-        const startDate = startDateRaw?.toISOString()
-        const endDate = endDateRaw?.toISOString()
-        console.log(selectedOption)
-        console.log(typeof selectedOption)
-        console.log(startDate)
-        console.log(typeof startDate)
-        console.log(endDate)
-        console.log(typeof endDate)
+        if(startDateRaw === null || endDateRaw === null || files === null) {
+            return;
+        }
+        const startDateIso: string = startDateRaw.toISOString()
+        const endDateIso: string = endDateRaw.toISOString()
+        const formData = new FormData();
+
+        formData.append('selectedOption', selectedOption);
+        formData.append('startDateIso', startDateIso);
+        formData.append('endDateIso', endDateIso);
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);  // 'files' must match FastAPI param name
+        }
+
         const res = await fetch('http://localhost:8000/forms/', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, startDate, endDate }),
+            body: formData,
         });
         console.log("res")
         console.log(res)
         const data = await res.json();
         console.log("data")
         console.log(data)
-        // setResult(JSON.stringify(data, null, 2));
     }
 
     return (
@@ -137,7 +131,7 @@ export default function FormPage() {
                             Upload files
                             <VisuallyHiddenInput
                                 type="file"
-                                onChange={(event) => console.log(event.target.files)}
+                                onChange={(event) => setFiles(event.target.files)}
                                 multiple
                             />
                         </Button>
