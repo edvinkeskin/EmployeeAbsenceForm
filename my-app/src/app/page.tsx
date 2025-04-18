@@ -12,7 +12,7 @@ import {
     InputLabel,
     Select,
     SelectChangeEvent,
-    MenuItem, IconButton
+    MenuItem, IconButton, Snackbar, Alert
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
@@ -23,6 +23,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function FormPage() {
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'success' as 'success' | 'error',
+    });
+
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -75,10 +81,18 @@ export default function FormPage() {
             body: formData,
         });
 
-        if(res.status === 200) {
-            alert("Employee Absence Form has been submitted successfully")
+        if (res.status === 200) {
+            setSnackbar({
+                open: true,
+                message: 'Employee Absence Form submitted successfully!',
+                severity: 'success',
+            });
         } else {
-            alert("Something went wrong when submitting the form")
+            setSnackbar({
+                open: true,
+                message: 'Something went wrong when submitting the form.',
+                severity: 'error',
+            });
         }
         // const data = await res.json();
     }
@@ -188,6 +202,20 @@ export default function FormPage() {
                         Submit
                     </Button>
                 </Box>
+                <Snackbar
+                    open={snackbar.open}
+                    autoHideDuration={6000}
+                    onClose={() => setSnackbar({ ...snackbar, open: false })}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Alert
+                        onClose={() => setSnackbar({ ...snackbar, open: false })}
+                        severity={snackbar.severity}
+                        sx={{ width: '100%' }}
+                    >
+                        {snackbar.message}
+                    </Alert>
+                </Snackbar>
             </Paper>
         </Container>
     );
